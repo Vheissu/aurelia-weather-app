@@ -1,4 +1,4 @@
-<import from="./components/weather"></import>
+<import from="./components/weather-item"></import>
 
 <div class="container spacer-v">
     <form class="mb-4">
@@ -21,7 +21,7 @@
         </div>
         <div class="col-md-8">
             <div class="row">
-                <weather data.bind="item" class="col-md-4 mb-3" repeat.for="item of weather.list"></weather>
+                <weather-item data.bind="item" class="col-md-4 mb-3" repeat.for="item of weather.list"></weather-item>
             </div>
         </div>
     </div>
