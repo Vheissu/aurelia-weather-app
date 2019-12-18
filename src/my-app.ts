@@ -16,8 +16,6 @@ export class MyApp {
     const longitude = position.coords.longitude;
 
     this.weather = await this.api.getWeather(latitude, longitude);
-
-    console.log(this.weather);
   }
 
   error() {
