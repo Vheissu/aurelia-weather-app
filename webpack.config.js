@@ -3,67 +3,89 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackShellPluginNext = require('webpack-shell-plugin-next')
 
 const cssLoader = {
-  loader: "css-loader",
-  options: {
-    modules: true,
-    // https://github.com/webpack-contrib/css-loader#importloaders
-    importLoaders: 1
-  }
+    loader: "css-loader",
+    options: {
+        modules: true,
+        // https://github.com/webpack-contrib/css-loader#importloaders
+        importLoaders: 1
+    }
 };
 
 const postcssLoader = {
-  loader: 'postcss-loader',
-  options: {
-    plugins: () => [
-      require('autoprefixer')()
-    ]
-  }
+    loader: 'postcss-loader',
+    options: {
+        plugins: () => [
+            require('autoprefixer')()
+        ]
+    }
 };
 
 module.exports = function(env, { runTest }) {
-  const production = env === 'production' || process.env.NODE_ENV === 'production';
-  const test = env === 'test' || process.env.NODE_ENV === 'test';
-  return {
-    mode: production ? 'production' : 'development',
-    devtool: production ? 'source-maps' : 'inline-source-map',
-    entry: test ? './test/all-spec.js' :  './src/main.ts',
-    output: {
-      path: path.resolve(__dirname, 'dist'),
-      filename: 'entry-bundle.js'
-    },
-    resolve: {
-      extensions: ['.ts', '.js'],
-      modules: [path.resolve(__dirname, 'src'), 'node_modules']
-    },
-    devServer: {
-      historyApiFallback: true,
-      open: !process.env.CI,
-      port: 9000,
-      lazy: false
-    },
-    module: {
-      rules: [
-        { test: /\.css$/i, use: [ "style-loader", cssLoader, postcssLoader ] },
-        { test: /\.ts$/i, use: ['ts-loader', '@aurelia/webpack-loader'], exclude: /node_modules/ },
-        {
-          test: /\.html$/i,
-          use: {
-            loader: '@aurelia/webpack-loader',
-            options: { useCSSModule: true }
-          },
-          exclude: /node_modules/
-        }
-      ]
-    },
-    plugins: [
-      new HtmlWebpackPlugin({ template: 'index.ejs' }),
-      test && runTest && new WebpackShellPluginNext({
-        dev: false,
-        swallowError: true,
-        onBuildEnd: {
-          scripts: [ 'npm run test:headless' ]
-        }
-      })
-    ].filter(p => p)
-  }
+    const production = env === 'production' || process.env.NODE_ENV === 'production';
+    const test = env === 'test' || process.env.NODE_ENV === 'test';
+    return {
+        mode: production ? 'production' : 'development',
+        devtool: production ? 'source-maps' : 'inline-source-map',
+        entry: test ? './test/all-spec.js' : './src/main.ts',
+        output: {
+            path: path.resolve(__dirname, 'dist'),
+            filename: 'entry-bundle.js'
+        },
+        resolve: {
+            extensions: ['.ts', '.js'],
+            modules: [path.resolve(__dirname, 'src'), 'node_modules']
+        },
+        devServer: {
+            historyApiFallback: true,
+            open: !process.env.CI,
+            port: 9000,
+            lazy: false
+        },
+        module: {
+            rules: [
+                { test: /\.css$/i, use: ["style-loader", cssLoader, postcssLoader] },
+                { test: /\.ts$/i, use: ['ts-loader', '@aurelia/webpack-loader'], exclude: /node_modules/ },
+                {
+                    test: /\.html$/i,
+                    use: {
+                        loader: '@aurelia/webpack-loader',
+                        options: { useCSSModule: true }
+                    },
+                    exclude: /node_modules/
+                },
+                {
+                    test: /\.(png|gif|jpg|cur)$/i,
+                    loader: 'url-loader',
+                    options: { limit: 8192, esModule: false },
+                },
+                {
+                    test: /\.woff2(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
+                    loader: 'url-loader',
+                    options: { limit: 10000, mimetype: 'application/font-woff2', esModule: false },
+                },
+                {
+                    test: /\.woff(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
+                    loader: 'url-loader',
+                    options: { limit: 10000, mimetype: 'application/font-woff', esModule: false },
+                },
+                {
+                    test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
+                    loader: 'file-loader',
+                    options: {
+                        esModule: false,
+                    },
+                }
+            ]
+        },
+        plugins: [
+            new HtmlWebpackPlugin({ template: 'index.ejs' }),
+            test && runTest && new WebpackShellPluginNext({
+                dev: false,
+                swallowError: true,
+                onBuildEnd: {
+                    scripts: ['npm run test:headless']
+                }
+            })
+        ].filter(p => p)
+    }
 }
