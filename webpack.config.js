@@ -2,14 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackShellPluginNext = require('webpack-shell-plugin-next')
 
-const cssLoader = {
-    loader: "css-loader",
-    options: {
-        modules: true,
-        // https://github.com/webpack-contrib/css-loader#importloaders
-        importLoaders: 1
-    }
-};
+const cssLoader = "css-loader";
 
 const postcssLoader = {
     loader: 'postcss-loader',
@@ -45,14 +38,7 @@ module.exports = function(env, { runTest }) {
             rules: [
                 { test: /\.css$/i, use: ["style-loader", cssLoader, postcssLoader] },
                 { test: /\.ts$/i, use: ['ts-loader', '@aurelia/webpack-loader'], exclude: /node_modules/ },
-                {
-                    test: /\.html$/i,
-                    use: {
-                        loader: '@aurelia/webpack-loader',
-                        options: { useCSSModule: true }
-                    },
-                    exclude: /node_modules/
-                }
+                { test: /\.html$/i, use: '@aurelia/webpack-loader', exclude: /node_modules/ }
             ]
         },
         plugins: [
