@@ -1,18 +1,26 @@
 import { WeatherApi } from './services/weather-api';
 
 export class MyApp {
-  private location: string = '';
   private weather;
 
   constructor(private api: WeatherApi) {
 
   }
 
-  async getWeather() {
-    if (this.location && this.location.trim() !== '') {
-      this.weather = await this.api.getWeather(this.location);
+  attached() {
+    navigator.geolocation.getCurrentPosition((position) => this.success(position), () => this.error());
+  }
 
-      console.log(this.weather);
-    }
+  async success(position: Position) {
+    const latitude  = position.coords.latitude;
+    const longitude = position.coords.longitude;
+
+    this.weather = await this.api.getWeather(latitude, longitude);
+
+    console.log(this.weather);
+  }
+
+  error() {
+
   }
 }

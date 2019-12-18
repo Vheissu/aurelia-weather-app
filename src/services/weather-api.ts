@@ -10,8 +10,8 @@ export class WeatherApi {
 		this.http = new HttpClient(DOM);
 	}
 
-    public async getWeather(address): Promise<IWeatherResponse> {
-        const req = await this.http.fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${address}&units=${this.units}&APPID=${this.apiKey}`);
+    public async getWeather(latitude: number, longitude: number): Promise<IWeatherResponse> {
+        const req = await this.http.fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=${this.units}&APPID=${this.apiKey}`);
 
         return req.json();
     }
