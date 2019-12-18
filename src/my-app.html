@@ -1,10 +1,14 @@
-<div class="container">
+<div class="container spacer-v">
     <form>
-        <div>
-            <label>Location</label>
-            <input type="text" value.bind="location">
+        <h2 class="mb-3">Weather. Whenever.</h2>
+        <div class="form-row">
+            <div class="col-8">
+                <input type="text" value.bind="location" class="form-control" placeholder="Enter a location...">
+            </div>
+            <div class="col-4 align-self-center">
+                <button type="button" click.delegate="getWeather()" class="btn btn-md btn-primary">Get Weather</button>
+            </div>
         </div>
-        <button type="button" click.delegate="getWeather()">Get Weather</button>
     </form>
 
     <div if.bind="weather && weather.cod === '404'">
