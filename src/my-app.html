@@ -1,0 +1,24 @@
+<form>
+    <div>
+        <label>Location</label>
+        <input type="text" value.bind="location">
+    </div>
+    <button type="button" click.delegate="getWeather()">Get Weather</button>
+</form>
+
+<div if.bind="weather && weather.cod === '404'">
+    <h3>Error</h3>
+    <p>${weather.message}</p>
+</div>
+
+<div if.bind="weather && weather.cod !== '404'">
+    <ul>
+        <li repeat.for="item of weather.list">
+            <p><strong>Date:</strong> ${item.dt_txt | formatDate}</p>
+            <p><strong>Clouds:</strong> ${item.clouds.all}</p>
+            <p><strong>Temperature:</strong> ${item.main.temp}</p>
+            <p><strong>Feels Like:</strong> ${item.main.feels_like}</p>
+            <p><strong>Humidity:</strong> ${item.main.humidity}</p>
+        </li>
+    </ul>
+</div>
