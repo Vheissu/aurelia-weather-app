@@ -52,28 +52,6 @@ module.exports = function(env, { runTest }) {
                         options: { useCSSModule: true }
                     },
                     exclude: /node_modules/
-                },
-                {
-                    test: /\.(png|gif|jpg|cur)$/i,
-                    loader: 'url-loader',
-                    options: { limit: 8192, esModule: false },
-                },
-                {
-                    test: /\.woff2(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
-                    loader: 'url-loader',
-                    options: { limit: 10000, mimetype: 'application/font-woff2', esModule: false },
-                },
-                {
-                    test: /\.woff(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
-                    loader: 'url-loader',
-                    options: { limit: 10000, mimetype: 'application/font-woff', esModule: false },
-                },
-                {
-                    test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
-                    loader: 'file-loader',
-                    options: {
-                        esModule: false,
-                    },
                 }
             ]
         },
