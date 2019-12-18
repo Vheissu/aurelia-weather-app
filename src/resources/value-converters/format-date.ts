@@ -6,6 +6,6 @@ import { format } from 'date-fns';
 })
 export class FormatDate {
     toView(date): string {
-        return date ? format(new Date(date), 'MM/dd/yyyy') : date;
+        return date ? format(new Date(date), 'MM/dd/yyyy - h:mm bbbb') : date;
     }
 }
