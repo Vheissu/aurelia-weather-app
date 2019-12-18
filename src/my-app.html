@@ -1,3 +1,5 @@
+<import from="./components/weather"></import>
+
 <div class="container spacer-v">
     <form class="mb-4">
         <h2 class="mb-3">Weather. Whenever.</h2>
@@ -10,17 +12,16 @@
 
     <div class="row" if.bind="weather && weather.cod !== '404'">
         <div class="col-md-3">
-            <h3 if.bind="weather"><img src="http://openweathermap.org/img/wn/${weather.list[0].weather[0].icon}@2x.png">${weather.city.name}, ${weather.city.country}</h3>
+            <div class="row">
+                <div class="col-md-3"><img src="http://openweathermap.org/img/wn/${weather.list[0].weather[0].icon}.png"></div>
+                <div class="col-md-8">
+                    <h3>${weather.city.name}, ${weather.city.country}</h3>
+                </div>
+            </div>
         </div>
         <div class="col-md-8">
             <div class="row">
-                <div class="col-md-4 mb-3" repeat.for="item of weather.list">
-                    <p><strong>Date:</strong> ${item.dt_txt | formatDate}</p>
-                    <p><strong>Clouds:</strong> ${item.clouds.all}</p>
-                    <p><strong>Temperature:</strong> ${item.main.temp}</p>
-                    <p><strong>Feels Like:</strong> ${item.main.feels_like}</p>
-                    <p><strong>Humidity:</strong> ${item.main.humidity}</p>
-                </div>
+                <weather data.bind="item" class="col-md-4 mb-3" repeat.for="item of weather.list"></weather>
             </div>
         </div>
     </div>
