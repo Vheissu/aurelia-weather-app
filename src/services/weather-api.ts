@@ -1,13 +1,13 @@
 import { HttpClient } from '@aurelia/fetch-client';
-import { DOM } from '@aurelia/runtime-html';
+import { inject } from 'aurelia';
 
+@inject(HttpClient)
 export class WeatherApi {
     private apiKey = '';
     private units = 'metric';
-	private http;
 
-	constructor() {
-		this.http = new HttpClient(DOM);
+	constructor(private http: HttpClient) {
+
 	}
 
     public async getWeather(latitude: number, longitude: number): Promise<IWeatherResponse> {
